@@ -36,7 +36,7 @@ class DistanceService
             $latLongData = $this->latLongService->generateLatLong($address[1]);
             $latitude = $latLongData['latitude'];
             $longitude = $latLongData['longitude'];
-            $distance = $this->calculateDistance($hqLatLong['lat'], $hqLatLong['long'], $latitude, $longitude, 'K');
+            $distance = $this->calculateDistance($hqLatLong['lat'], $hqLatLong['long'], $latitude, $longitude);
             $response[$key]['distance'] = round($distance,2);
             $response[$key]['name'] = $address[0];
             $response[$key]['address'] = $address[1];
