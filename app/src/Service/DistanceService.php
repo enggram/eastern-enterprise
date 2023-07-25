@@ -3,19 +3,20 @@
 namespace App\Service;
 
 use App\Service\LatLongService;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 class DistanceService
 {
-    public LatLongService $latLongService;
-    public KernelInterface $appKernel;
+    public LatLongInterface $latLongService;
+    public string $projectDir;
     public $hqAddress;
     public $otherAddresses;
+    public CsvService $csvService;
 
-    public function __construct(LatLongService $latLongService, KernelInterface $appKernel)
+    public function __construct(LatLongInterface $latLongInterface, string $projectDir, CsvService $csvService)
     {
-        $this->latLongService = $latLongService;
-        $this->appKernel = $appKernel;
+        $this->latLongService = $latLongInterface;
+        $this->projectDir = $projectDir;
+        $this->csvService = $csvService;
     }
 
     /**
@@ -45,15 +46,8 @@ class DistanceService
         usort($response, function ($item1, $item2) {
             return $item1['distance'] <=> $item2['distance'];
         });
-        // Open a file in write mode ('w')
-        $fp = fopen($this->appKernel->getProjectDir().'/distances.csv', 'w');
 
-        foreach ($response as $key => $data) {
-            $data['distance'] = $data['distance'].' km';
-            fputcsv($fp, $data);
-        }
-
-        fclose($fp);
+        $this->csvService->saveCsvFile($response);
 
         return $response;
 
@@ -66,7 +60,7 @@ class DistanceService
      */
     public function getAddresses()
     {
-        $csvFile = file($this->appKernel->getProjectDir().'/addresses.csv');
+        $csvFile = file($this->projectDir.'/addresses.csv');
         $data = [];
         $i=0;
         foreach ($csvFile as $line) {

@@ -5,7 +5,7 @@ namespace App\Service;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Psr\Log\LoggerInterface;
 
-class LatLongService
+class LatLongService implements LatLongInterface
 {
     public HttpClientInterface $client;
     public $accessKey;
