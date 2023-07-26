@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Service\LatLongService;
+use App\Service\LatLongInterface;
 
 class DistanceService
 {
@@ -47,6 +47,9 @@ class DistanceService
             return $item1['distance'] <=> $item2['distance'];
         });
 
+        /**
+         * Store response in a csv file stored in root folder
+         */
         $this->csvService->saveCsvFile($response);
 
         return $response;

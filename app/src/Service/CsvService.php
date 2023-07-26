@@ -2,9 +2,6 @@
 
 namespace App\Service;
 
-use App\Service\LatLongService;
-use Symfony\Component\HttpKernel\KernelInterface;
-
 class CsvService
 {
     private string $projectDir;
